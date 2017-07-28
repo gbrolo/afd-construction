@@ -14,7 +14,8 @@ public class Transformation {
     private List<State> initialState; // AFN's initial state
     private HashMap<Integer, HashMap<String, List<State>>> transitionTable; // The first transition table
     private HashMap<List<State>, HashMap<String, List<State>>> dfaTable; // The reduced transition table for the dfa
-    private List<List<State>> dfaStates;
+    private List<List<State>> dfaStates; // states of the dfa without id
+    private HashMap<List<State>, Integer> dfaStatesWithNumbering; // states of the dfa with an id for each one of them
 
     public Transformation(List<Transition> transitionList, List<Character> symbolList, List<State> finalStates, List<State> initialState) {
         this.transitionList = transitionList;
@@ -26,6 +27,7 @@ public class Transformation {
         transitionTable = new HashMap<Integer, HashMap<String, List<State>>>();
         dfaTable = new HashMap<>();
         dfaStates = new LinkedList<>();
+        dfaStatesWithNumbering = new HashMap<>();
 
         createTransitionTable();
         createDfaTable();
@@ -92,6 +94,12 @@ public class Transformation {
         }
         System.out.println(dfaTable.toString());
         System.out.println(dfaStates.toString());
+
+        for (int i = 0; i < dfaStates.size(); i++) {
+            dfaStatesWithNumbering.put(dfaStates.get(i), i);
+        }
+
+        System.out.println(dfaStatesWithNumbering.toString());
     }
 
     private List<State> eClosure(State initialState, List<State> tmpClosure) {
@@ -157,4 +165,12 @@ public class Transformation {
         transitionTable.put(finalStates.get(0).getStateId(), tmpCol);
         System.out.println(transitionTable.toString());
     }
+
+    public HashMap<List<State>, HashMap<String, List<State>>> getDfaTable() { return this.dfaTable; }
+
+    public HashMap<List<State>, Integer> getDfaStatesWithNumbering() { return this.dfaStatesWithNumbering; }
+
+    public List<List<State>> getDfaStates() { return this.dfaStates; }
+
+    public List<Character> getSymbolList() { return this.symbolList; }
 }

@@ -1,6 +1,7 @@
 package Run;
 
 import Implementation.AFN;
+import Implementation.DFA;
 import Implementation.Transformation;
 import Syntax.PostFix;
 
@@ -68,6 +69,8 @@ public class Runnable {
             writer.close();
 
             Transformation transformation = new Transformation(afn.getTransitionsList(),afn.getSymbolList(), afn.getFinalStates(), afn.getInitialState());
+            DFA dfa = new DFA(transformation.getDfaTable(), transformation.getDfaStates(),transformation.getDfaStatesWithNumbering(),transformation.getSymbolList());
+
         } catch (IOException e) {
             e.printStackTrace();
         }

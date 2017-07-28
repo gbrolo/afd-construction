@@ -31,6 +31,12 @@ public class State {
         AFN.stateCount++;
     }
 
+    public State(int stateId, boolean dfa) {
+        this.stateId = stateId;
+        this.previousStates = new LinkedList<>();
+        this.nextStates = new LinkedList<>();
+    }
+
     public void addPreviousState(State previousState) {
         this.previousStates.add(previousState);
     }
