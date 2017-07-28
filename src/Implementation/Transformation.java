@@ -19,6 +19,10 @@ public class Transformation {
 
         transitionTable = new HashMap<Integer, HashMap<String, List<State>>>();
 
+        createTransitionTable();
+    }
+
+    private void createTransitionTable() {
         // start transitionTable only with states
         for (int i = 0; i < this.transitionList.size(); i++) {
             if (!transitionTable.containsKey(transitionList.get(i).getInitialState().getStateId())){
@@ -31,19 +35,23 @@ public class Transformation {
 
                     if (currTransition.getTransitionSymbol().equals(currSymbol)) {
                         tmpClosure = currTransition.getInitialState().getNextStates();
+                        // if it is epsilon
+                        if (currSymbol.equals("ε")) {
+                            tmpClosure.add(currTransition.getInitialState());
+                        }
                     } else {
-                        tmpClosure = null;
+                        if (currSymbol.equals("ε")) {
+                            tmpClosure = new LinkedList<State>();
+                            tmpClosure.add(currTransition.getInitialState());
+                        } else {
+                            tmpClosure = null;
+                        }
                     }
-
                     tmpCol.put(currSymbol,tmpClosure);
                 }
                 transitionTable.put(transitionList.get(i).getInitialState().getStateId(), tmpCol);
             }
         }
-    }
-
-    private void createTransitionTable() {
-        // traverse the hashmap transitionTable
 
     }
 }

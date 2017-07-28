@@ -1,7 +1,8 @@
-# Thompson's Algorithm
+# NFA to DFA
 
 An implementation of McNaughton-Yamada-Thompson's algorithm
-in Java to create an AFN from a Regular Expression.
+in Java to create an AFN from a Regular Expression, which is then 
+converted to a DFA using transitions tables.
 
 ## Getting Started
 
@@ -54,6 +55,9 @@ AFN will be exported as:
 ```
 root_directory\AFN.txt
 ```
+
+You will then be asked to enter a string to see if it belongs
+to the language generated
 
 ## Authors
 
