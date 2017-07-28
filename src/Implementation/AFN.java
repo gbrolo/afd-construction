@@ -21,7 +21,7 @@ public class AFN {
     private List<Character> symbolList; // AFN's symbol list
     private List<Transition> transitionsList; // AFN's transitions list
     private List<State> finalStates; // AFN's acceptation states list
-    private List<String> initialState; // AFN's initial state
+    private List<State> initialState; // AFN's initial state
     private List<String> states; // AFN's states
 
     public static int stateCount; // id for States
@@ -57,7 +57,7 @@ public class AFN {
         lookahead3 = new Stack<State>();
         lookahead4 = new Stack<State>();
         finalStates = new LinkedList<State>();
-        initialState = new LinkedList<String>();
+        initialState = new LinkedList<State>();
         states = new LinkedList<String>();
         computeSymbolList();
         regExpToAFN();
@@ -101,7 +101,7 @@ public class AFN {
         for (int i = 0; i < transitionsList.size(); i++) {
             if (transitionsList.get(i).getInitialState().getPreviousStates().size() == 0) {
                 if (!initialState.contains(transitionsList.get(i).getInitialState().toString())) {
-                    initialState.add(transitionsList.get(i).getInitialState().toString());
+                    initialState.add(transitionsList.get(i).getInitialState());
                 }
             }
         }
@@ -286,7 +286,7 @@ public class AFN {
         return this.states;
     }
 
-    public List<String> getInitialState () {
+    public List<State> getInitialState () {
         return this.initialState;
     }
 

@@ -14,6 +14,9 @@ public class State {
     private List<State> nextStates;
     private int stateId;
 
+    private boolean isInitial;
+    private boolean isFinal;
+
     public State(int stateId) {
         this.stateId = stateId;
         this.previousStates = new LinkedList<State>();
@@ -47,4 +50,12 @@ public class State {
     }
 
     public int getStateId() { return this.stateId; }
+
+    public void setInitial(boolean isInitial) { this.isInitial = isInitial; }
+
+    public boolean getInitial() { return this.isInitial; }
+
+    public void setFinal(boolean isFinal) { this.isFinal = isFinal; }
+
+    public boolean getFinal() { return this.isFinal; }
 }

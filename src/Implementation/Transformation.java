@@ -11,17 +11,45 @@ public class Transformation {
     private List<Transition> transitionList; // Transition List coming from AFN
     private List<Character> symbolList; // AFN's symbol List
     private List<State> finalStates; // AFN's final state
+    private List<State> initialState; // AFN's initial state
     private HashMap<Integer, HashMap<String, List<State>>> transitionTable; // The first transition table
+    private HashMap<List<State>, HashMap<String, List<State>>> dfaTable; // The reduced transition table for the dfa
 
-    public Transformation(List<Transition> transitionList, List<Character> symbolList, List<State> finalStates) {
+    public Transformation(List<Transition> transitionList, List<Character> symbolList, List<State> finalStates, List<State> initialState) {
         this.transitionList = transitionList;
         this.symbolList = symbolList;
         this.finalStates = finalStates;
+        this.initialState = initialState;
         symbolList.add('ε');
 
         transitionTable = new HashMap<Integer, HashMap<String, List<State>>>();
+        dfaTable = new HashMap<>();
 
         createTransitionTable();
+        createDfaTable();
+    }
+
+    private void createDfaTable() {
+        // Do this for the initial state only
+        HashMap<String, List<State>> tmpCol = new HashMap<>();
+        for (int i = 0; i < this.symbolList.size()-1; i++) {
+            List<State> symbolEpsilonKleene = new LinkedList<State>();
+            HashMap<String, List<State>> stateInfo = new HashMap<>();
+            stateInfo = transitionTable.get(initialState.get(0).getStateId());
+
+            List<State> currSymbolList = stateInfo.get(Character.toString(symbolList.get(i)));
+            if (currSymbolList != null) {
+                for (int j = 0; j < currSymbolList.size(); j++) {
+                    int currentIndex = currSymbolList.get(j).getStateId();
+                    symbolEpsilonKleene.addAll(transitionTable.get(currentIndex).get("ε"));
+                }
+            } else {
+                symbolEpsilonKleene.add(null);
+            }
+            tmpCol.put(Character.toString(symbolList.get(i)), symbolEpsilonKleene);
+        }
+        dfaTable.put(initialState, tmpCol);
+        System.out.println(dfaTable.toString());
     }
 
     private List<State> eClosure(State initialState, List<State> tmpClosure) {

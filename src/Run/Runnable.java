@@ -67,7 +67,7 @@ public class Runnable {
             writer.println("INITIAL STATE: "+afn.getInitialState());
             writer.close();
 
-            Transformation transformation = new Transformation(afn.getTransitionsList(),afn.getSymbolList(), afn.getFinalStates());
+            Transformation transformation = new Transformation(afn.getTransitionsList(),afn.getSymbolList(), afn.getFinalStates(), afn.getInitialState());
         } catch (IOException e) {
             e.printStackTrace();
         }
