@@ -100,7 +100,8 @@ public class AFN {
     public void computeInitialState() {
         for (int i = 0; i < transitionsList.size(); i++) {
             if (transitionsList.get(i).getInitialState().getPreviousStates().size() == 0) {
-                if (!initialState.contains(transitionsList.get(i).getInitialState().toString())) {
+                if (!initialState.contains(transitionsList.get(i).getInitialState())) {
+                    transitionsList.get(i).getInitialState().setInitial(true);
                     initialState.add(transitionsList.get(i).getInitialState());
                 }
             }
@@ -201,6 +202,7 @@ public class AFN {
             }
 
             if (i == postFixRegExp.length()-1) {
+                currentFinalState.setFinal(true);
                 finalStates.add(currentFinalState);
                 if (symbolList.contains('ε')) {
                     symbolList.remove(symbolList.indexOf('ε'));

@@ -14,6 +14,7 @@ public class Transformation {
     private List<State> initialState; // AFN's initial state
     private HashMap<Integer, HashMap<String, List<State>>> transitionTable; // The first transition table
     private HashMap<List<State>, HashMap<String, List<State>>> dfaTable; // The reduced transition table for the dfa
+    private List<List<State>> dfaStates;
 
     public Transformation(List<Transition> transitionList, List<Character> symbolList, List<State> finalStates, List<State> initialState) {
         this.transitionList = transitionList;
@@ -24,6 +25,7 @@ public class Transformation {
 
         transitionTable = new HashMap<Integer, HashMap<String, List<State>>>();
         dfaTable = new HashMap<>();
+        dfaStates = new LinkedList<>();
 
         createTransitionTable();
         createDfaTable();
@@ -32,6 +34,7 @@ public class Transformation {
     private void createDfaTable() {
         // Do this for the initial state only
         HashMap<String, List<State>> tmpCol = new HashMap<>();
+        dfaStates.add(initialState);
         for (int i = 0; i < this.symbolList.size()-1; i++) {
             List<State> symbolEpsilonKleene = new LinkedList<State>();
             HashMap<String, List<State>> stateInfo = new HashMap<>();
@@ -43,13 +46,52 @@ public class Transformation {
                     int currentIndex = currSymbolList.get(j).getStateId();
                     symbolEpsilonKleene.addAll(transitionTable.get(currentIndex).get("ε"));
                 }
-            } else {
-                symbolEpsilonKleene.add(null);
             }
             tmpCol.put(Character.toString(symbolList.get(i)), symbolEpsilonKleene);
+            if (!dfaStates.contains(symbolEpsilonKleene)) {
+                if (symbolEpsilonKleene.size() > 0) {
+                    dfaStates.add(symbolEpsilonKleene);
+                }
+            }
         }
         dfaTable.put(initialState, tmpCol);
+
+        // add rest of table
+        for (int k = 0; k < dfaStates.size(); k++) {
+            if (!dfaTable.containsKey(dfaStates.get(k))) {
+                // add new state to table
+                // first, traverse the state list (which is the new dfa state)
+                HashMap<String, List<State>> tmpCols = new HashMap<>();
+
+                for (int m = 0; m < this.symbolList.size()-1; m++) { // iterate over symbols
+                    String currSymbol = Character.toString(symbolList.get(m));
+                    List<State> symbolEpsilonKleene = new LinkedList<State>();
+                    for (int i = 0; i < dfaStates.get(k).size(); i++) { // iterate over new state
+                        State currState = dfaStates.get(k).get(i);
+
+                        HashMap<String, List<State>> stateInfo = new HashMap<>();
+                        stateInfo = transitionTable.get(currState.getStateId());
+
+                        List<State> currSymbolList = stateInfo.get(currSymbol);
+                        if (currSymbolList != null) {
+                            for (int j = 0; j < currSymbolList.size(); j++) {
+                                int currentIndex = currSymbolList.get(j).getStateId();
+                                symbolEpsilonKleene.addAll(transitionTable.get(currentIndex).get("ε"));
+                            }
+                        }
+                        tmpCols.put(currSymbol, symbolEpsilonKleene);
+                    }
+                    if (!dfaStates.contains(symbolEpsilonKleene)) {
+                        if (symbolEpsilonKleene.size() > 0) {
+                            dfaStates.add(symbolEpsilonKleene);
+                        }
+                    }
+                }
+                dfaTable.put(dfaStates.get(k), tmpCols);
+            }
+        }
         System.out.println(dfaTable.toString());
+        System.out.println(dfaStates.toString());
     }
 
     private List<State> eClosure(State initialState, List<State> tmpClosure) {
