@@ -10,16 +10,33 @@ import java.util.List;
 public class Transformation {
     private List<Transition> transitionList; // Transition List coming from AFN
     private List<Character> symbolList; // AFN's symbol List
+    private List<State> finalStates; // AFN's final state
     private HashMap<Integer, HashMap<String, List<State>>> transitionTable; // The first transition table
 
-    public Transformation(List<Transition> transitionList, List<Character> symbolList) {
+    public Transformation(List<Transition> transitionList, List<Character> symbolList, List<State> finalStates) {
         this.transitionList = transitionList;
         this.symbolList = symbolList;
+        this.finalStates = finalStates;
         symbolList.add('ε');
 
         transitionTable = new HashMap<Integer, HashMap<String, List<State>>>();
 
         createTransitionTable();
+    }
+
+    private List<State> eClosure(State initialState, List<State> tmpClosure) {
+        // initialState is finalState of current Transition
+        for (int i = 0; i < this.transitionList.size(); i++) {
+            if (transitionList.get(i).getInitialState() == initialState) {
+                if (transitionList.get(i).getTransitionSymbol().equals("ε")) {
+                    if (!tmpClosure.contains(transitionList.get(i).getFinalState())) {
+                        tmpClosure.add(transitionList.get(i).getFinalState());
+                    }
+                    eClosure(transitionList.get(i).getFinalState(), tmpClosure);
+                }
+            }
+        }
+        return tmpClosure;
     }
 
     private void createTransitionTable() {
@@ -37,11 +54,13 @@ public class Transformation {
                         tmpClosure = currTransition.getInitialState().getNextStates();
                         // if it is epsilon
                         if (currSymbol.equals("ε")) {
+                            tmpClosure = eClosure(currTransition.getInitialState(), tmpClosure); // find closures
                             tmpClosure.add(currTransition.getInitialState());
                         }
                     } else {
                         if (currSymbol.equals("ε")) {
                             tmpClosure = new LinkedList<State>();
+                            tmpClosure = eClosure(currTransition.getInitialState(), tmpClosure); // find closures
                             tmpClosure.add(currTransition.getInitialState());
                         } else {
                             tmpClosure = null;
@@ -52,6 +71,20 @@ public class Transformation {
                 transitionTable.put(transitionList.get(i).getInitialState().getStateId(), tmpCol);
             }
         }
-
+        System.out.println(transitionTable.toString());
+        // add final state to transitionTable
+        List<State> tmpClosure = new LinkedList<State>();
+        HashMap<String, List<State>> tmpCol = new HashMap<String, List<State>>();
+        for (int k = 0; k < symbolList.size(); k++) {
+            if (Character.toString(symbolList.get(k)).equals("ε")) {
+                tmpClosure = new LinkedList<State>();
+                tmpClosure.add(finalStates.get(0));
+            } else {
+                tmpClosure = null;
+            }
+            tmpCol.put(Character.toString(symbolList.get(k)),tmpClosure);
+        }
+        transitionTable.put(finalStates.get(0).getStateId(), tmpCol);
+        System.out.println(transitionTable.toString());
     }
 }
