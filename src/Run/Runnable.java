@@ -41,7 +41,7 @@ public class Runnable {
                 " *      You MUST use ε in your expression for representation of an empty word. (Just copy it from here) \n" +
                 " * Example of regexps: \n" +
                 " *      ab*ab* \n" +
-                " *      (b|b)*abb(a|b)* \n" +
+                " *      0?(1|ε)?0* \n" +
                 " * Accepts abbreviations and concatenation by yuxtaposition \n" +
                 "Enter your regexp after this line:");
         Scanner sc = new Scanner(System.in);
