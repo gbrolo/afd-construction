@@ -5,4 +5,4 @@ STATES ([NFA STATE LIST]=DFA STATE ID): {[2, 5, 6, 3]=3, [4, 5, 6, 2, 1]=1, [0]=
 TRANSITIONS LIST: [0 - a - 1, 1 - a - 2, 1 - b - 3, 2 - b - 4, 3 - a - 2, 3 - b - 3, 4 - b - 4]
 FINAL STATE(S): [2, 4]
 INITIAL STATE: [0]
-GENERATION TIME: 878025 ns
+GENERATION TIME: 879387 ns

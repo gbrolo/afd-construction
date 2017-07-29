@@ -65,6 +65,68 @@ public class AFN {
         computeInitialState();
     }
 
+    public String extendedDelta(String input) {
+        long start = System.nanoTime();
+        List<State> currentStateList = initialState;
+        List<State> tmpStateList = new LinkedList<>();
+        for (int i = 0; i < input.length(); i ++) {
+            if (tmpStateList.size() > 0) {
+                currentStateList = tmpStateList;
+            }
+            for (int j = 0; j < currentStateList.size(); j++) {
+                String currentChar = Character.toString(input.charAt(i));
+                State currentState = currentStateList.get(j);
+                for (int k = 0; k < transitionsList.size(); k++) {
+                    if ((transitionsList.get(k).getInitialState() == currentState) &&
+                            (transitionsList.get(k).getTransitionSymbol().equals(currentChar))) {
+                        State nextState = transitionsList.get(k).getFinalState();
+                        tmpStateList = eClosure(nextState, new LinkedList<>());
+                        tmpStateList.add(nextState);
+                        k = transitionsList.size();
+                    } else if ((transitionsList.get(k).getInitialState() == currentState) &&
+                            (transitionsList.get(k).getTransitionSymbol().equals("ε"))) {
+                        State nextState = transitionsList.get(k).getFinalState();
+                        tmpStateList = eClosure(nextState, currentStateList);
+                        tmpStateList.add(nextState);
+                        //k = transitionsList.size();
+                    }
+                }
+            }
+        }
+
+        //System.out.println(currentStateList);
+
+        long finish = System.nanoTime();
+        long duration = (finish - start);
+
+        // traverse the list of final states to see if currentState is a final state
+        String isInLanguage = "";
+        if(currentStateList.contains(finalStates.get(0))) {
+            isInLanguage = " the string belongs to the language.";
+        } else {
+            isInLanguage = " the string does not belong to the language.";
+        }
+
+        String output = "The only final state in the NFA is " + finalStates.get(0) + ", therefore" + isInLanguage + "\n" +
+                "NFA search took " + duration + "ns.";
+        return output;
+    }
+
+    private List<State> eClosure(State initialState, List<State> tmpClosure) {
+        // initialState is finalState of current Transition
+        for (int i = 0; i < this.transitionsList.size(); i++) {
+            if (transitionsList.get(i).getInitialState() == initialState) {
+                if (transitionsList.get(i).getTransitionSymbol().equals("ε")) {
+                    if (!tmpClosure.contains(transitionsList.get(i).getFinalState())) {
+                        tmpClosure.add(transitionsList.get(i).getFinalState());
+                    }
+                    eClosure(transitionsList.get(i).getFinalState(), tmpClosure);
+                }
+            }
+        }
+        return tmpClosure;
+    }
+
     /**
      * Checks for symbols in postFixRegExp and adds them to symbolList
      */

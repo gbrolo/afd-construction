@@ -95,7 +95,9 @@ public class DFA {
             List<State> currStateList = dfaStates.get(i);
             for (int j = 0; j < currStateList.size(); j++) {
                 if (currStateList.get(j).getFinal()) {
-                    finalStates.add(dfaStatesWithNumbering.get(currStateList));
+                    if (!finalStates.contains(dfaStatesWithNumbering.get(currStateList))) {
+                        finalStates.add(dfaStatesWithNumbering.get(currStateList));
+                    }
                 }
                 if (currStateList.get(j).getInitial()) {
                     initialStates.add(dfaStatesWithNumbering.get(currStateList));
