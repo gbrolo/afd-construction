@@ -34,6 +34,15 @@ public class DFA {
         setInitialAndFinalStates();
     }
 
+    public boolean belongsToLanguage(String input) {
+        for (int i = 0; i < input.length(); i++) {
+            String currChar = Character.toString(input.charAt(i));
+            List<Transition> subTransitions = new LinkedList<>();
+
+        }
+        return true;
+    }
+
     private void setTransitionsList () {
         for (int i = 0; i < dfaStates.size(); i++) {
             List<State> currStateList = dfaStates.get(i);
