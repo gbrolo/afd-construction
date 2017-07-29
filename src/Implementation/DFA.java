@@ -13,6 +13,8 @@ public class DFA {
     private HashMap<List<State>, Integer> dfaStatesWithNumbering;
     private List<Character> symbolList;
     private List<Transition> transitionsList;
+    private List<Integer> finalStates;
+    private List<Integer> initialStates;
 
     public DFA (
             HashMap<List<State>, HashMap<String, List<State>>> dfaTable,
@@ -25,8 +27,11 @@ public class DFA {
         this.dfaStatesWithNumbering = dfaStatesWithNumbering;
         this.symbolList = symbolList;
         this.transitionsList = new LinkedList<>();
+        this.finalStates = new LinkedList<>();
+        this.initialStates = new LinkedList<>();
 
         setTransitionsList();
+        setInitialAndFinalStates();
     }
 
     private void setTransitionsList () {
@@ -51,6 +56,31 @@ public class DFA {
                 }
             }
         }
-        System.out.println(transitionsList.toString());
     }
+
+    private void setInitialAndFinalStates() {
+        for (int i = 0; i < dfaStates.size(); i++) {
+            List<State> currStateList = dfaStates.get(i);
+            for (int j = 0; j < currStateList.size(); j++) {
+                if (currStateList.get(j).getFinal()) {
+                    finalStates.add(dfaStatesWithNumbering.get(currStateList));
+                }
+                if (currStateList.get(j).getInitial()) {
+                    initialStates.add(dfaStatesWithNumbering.get(currStateList));
+                }
+            }
+        }
+    }
+
+    public List<Character> getSymbolList () {
+        if (symbolList.contains('ε')) {
+            symbolList.remove(symbolList.indexOf('ε'));
+        }
+        return  this.symbolList;
+    }
+
+    public List<Transition> getTransitionsList () { return this.transitionsList; }
+    public List<Integer> getFinalStates () { return this.finalStates; }
+    public List<Integer> getInitialStates () { return this.initialStates; }
+    public HashMap<List<State>, Integer> getDfaStatesWithNumbering () { return this.dfaStatesWithNumbering; }
 }

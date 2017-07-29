@@ -57,7 +57,11 @@ public class Runnable {
      */
     public static void writeFile() {
         try{
+            long afnStartTime = System.nanoTime();
             AFN afn = new AFN(regexp);
+            long afnEndTime = System.nanoTime();
+            long duration = (afnEndTime - afnStartTime)/ 1000000; // time in miliseconds
+
             PrintWriter writer = new PrintWriter("AFN.txt", "UTF-8");
             writer.println("REGULAR EXPRESSION: "+regexp);
             writer.println("REGULAR EXPRESSION IN POSTFIX: "+afn.getPostFixRegExp());
@@ -66,11 +70,26 @@ public class Runnable {
             writer.println("FINAL STATE: "+afn.getFinalStates());
             writer.println("STATES: "+afn.getStates());
             writer.println("INITIAL STATE: "+afn.getInitialState());
+            writer.println("GENERATION TIME: "+duration + " ms");
             writer.close();
 
             Transformation transformation = new Transformation(afn.getTransitionsList(),afn.getSymbolList(), afn.getFinalStates(), afn.getInitialState());
-            DFA dfa = new DFA(transformation.getDfaTable(), transformation.getDfaStates(),transformation.getDfaStatesWithNumbering(),transformation.getSymbolList());
 
+            long dfaStartTime = System.nanoTime();
+            DFA dfa = new DFA(transformation.getDfaTable(), transformation.getDfaStates(),transformation.getDfaStatesWithNumbering(),transformation.getSymbolList());
+            long dfaEndTime = System.nanoTime();
+            long dfaDuration = (dfaEndTime - dfaStartTime);
+
+            PrintWriter dfaWriter = new PrintWriter("DFA.txt", "UTF-8");
+            dfaWriter.println("REGULAR EXPRESSION: "+regexp);
+            dfaWriter.println("REGULAR EXPRESSION IN POSTFIX: "+afn.getPostFixRegExp());
+            dfaWriter.println("SYMBOL LIST: "+dfa.getSymbolList());
+            dfaWriter.println("STATES ([NFA STATE LIST]=DFA STATE ID): "+dfa.getDfaStatesWithNumbering());
+            dfaWriter.println("TRANSITIONS LIST: "+dfa.getTransitionsList());
+            dfaWriter.println("FINAL STATE(S): "+dfa.getFinalStates());
+            dfaWriter.println("INITIAL STATE: "+dfa.getInitialStates());
+            dfaWriter.println("GENERATION TIME: "+dfaDuration + " ns");
+            dfaWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

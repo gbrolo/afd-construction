@@ -92,14 +92,10 @@ public class Transformation {
                 dfaTable.put(dfaStates.get(k), tmpCols);
             }
         }
-        System.out.println(dfaTable.toString());
-        System.out.println(dfaStates.toString());
 
         for (int i = 0; i < dfaStates.size(); i++) {
             dfaStatesWithNumbering.put(dfaStates.get(i), i);
         }
-
-        System.out.println(dfaStatesWithNumbering.toString());
     }
 
     private List<State> eClosure(State initialState, List<State> tmpClosure) {
@@ -149,7 +145,6 @@ public class Transformation {
                 transitionTable.put(transitionList.get(i).getInitialState().getStateId(), tmpCol);
             }
         }
-        System.out.println(transitionTable.toString());
         // add final state to transitionTable
         List<State> tmpClosure = new LinkedList<State>();
         HashMap<String, List<State>> tmpCol = new HashMap<String, List<State>>();
@@ -163,7 +158,6 @@ public class Transformation {
             tmpCol.put(Character.toString(symbolList.get(k)),tmpClosure);
         }
         transitionTable.put(finalStates.get(0).getStateId(), tmpCol);
-        System.out.println(transitionTable.toString());
     }
 
     public HashMap<List<State>, HashMap<String, List<State>>> getDfaTable() { return this.dfaTable; }

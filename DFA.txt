@@ -1,0 +1,8 @@
+REGULAR EXPRESSION: ab*ab*
+REGULAR EXPRESSION IN POSTFIX: ab*.a.b*.
+SYMBOL LIST: [a, b]
+STATES ([NFA STATE LIST]=DFA STATE ID): {[2, 5, 6, 3]=3, [4, 5, 6, 2, 1]=1, [0]=0, [10, 11, 8, 7]=2, [8, 11, 9]=4}
+TRANSITIONS LIST: [0 - a - 1, 1 - a - 2, 1 - b - 3, 2 - b - 4, 3 - a - 2, 3 - b - 3, 4 - b - 4]
+FINAL STATE(S): [2, 4]
+INITIAL STATE: [0]
+GENERATION TIME: 1930371 ns
