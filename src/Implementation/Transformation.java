@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Transformation
+ * Transforms an NFA to a DFA.
  * Created by Gabriel Brolo on 27/07/2017.
  */
 public class Transformation {
@@ -33,6 +35,9 @@ public class Transformation {
         createDfaTable();
     }
 
+    /**
+     * Creates the transformed table with new states and transitions
+     */
     private void createDfaTable() {
         // Do this for the initial state only
 
@@ -104,6 +109,12 @@ public class Transformation {
         }
     }
 
+    /**
+     * Runs the e-closure on a determined state
+     * @param initialState
+     * @param tmpClosure
+     * @return
+     */
     private List<State> eClosure(State initialState, List<State> tmpClosure) {
         // initialState is finalState of current Transition
         for (int i = 0; i < this.transitionList.size(); i++) {
@@ -119,6 +130,9 @@ public class Transformation {
         return tmpClosure;
     }
 
+    /**
+     * Creates transition table from NFA.
+     */
     private void createTransitionTable() {
         // start transitionTable only with states
         for (int i = 0; i < this.transitionList.size(); i++) {

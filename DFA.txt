@@ -1,8 +1,8 @@
-REGULAR EXPRESSION: (a|ε)b(a+)c?
-REGULAR EXPRESSION IN POSTFIX: aε|b.aa*..cε|.
-SYMBOL LIST: [a, b, c]
-STATES ([NFA STATE LIST]=DFA STATE ID): {[0, 2, 3, 5, 6, 4]=0, [8, 7]=2, [12, 13, 18, 14, 16, 17, 19, 10, 9]=3, [19, 15]=5, [10, 13, 18, 14, 16, 17, 19, 11]=4, [5, 6, 1]=1}
-TRANSITIONS LIST: [0 - a - 1, 0 - b - 2, 1 - b - 2, 2 - a - 3, 3 - a - 4, 3 - c - 5, 4 - a - 4, 4 - c - 5]
-FINAL STATE(S): [3, 4, 5]
+REGULAR EXPRESSION: 0?(1|ε)?0*
+REGULAR EXPRESSION IN POSTFIX: 0ε|1ε|ε|.0*.
+SYMBOL LIST: [0, 1]
+STATES ([NFA STATE LIST]=DFA STATE ID): {[16, 19, 17, 16, 19, 17]=3, [0, 2, 3, 5, 14, 10, 6, 8, 9, 11, 15, 18, 19, 16, 12, 13, 4]=0, [5, 14, 10, 6, 8, 9, 11, 15, 18, 19, 16, 12, 13, 1, 16, 19, 17]=1, [16, 19, 17]=4, [11, 15, 18, 19, 16, 7]=2}
+TRANSITIONS LIST: [0 - 0 - 1, 0 - 1 - 2, 1 - 0 - 3, 1 - 1 - 2, 2 - 0 - 4, 3 - 0 - 3, 4 - 0 - 4]
+FINAL STATE(S): [0, 1, 2, 3, 4]
 INITIAL STATE: [0]
-GENERATION TIME: 878371 ns
+GENERATION TIME: 2446186 ns

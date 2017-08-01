@@ -5,12 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * DFA
+ * A DFA generated from a NFA via subsets of the NFA.
  * Created by Gabriel Brolo on 28/07/2017.
  */
 public class DFA {
-    private HashMap<List<State>, HashMap<String, List<State>>> dfaTable;
-    private List<List<State>> dfaStates;
-    private HashMap<List<State>, Integer> dfaStatesWithNumbering;
+    private HashMap<List<State>, HashMap<String, List<State>>> dfaTable; // table with transitions
+    private List<List<State>> dfaStates; // the new DFA's states
+    private HashMap<List<State>, Integer> dfaStatesWithNumbering; // The states with an assigned ID
     private List<Character> symbolList;
     private List<Transition> transitionsList;
     private List<Integer> finalStates;
@@ -34,6 +36,11 @@ public class DFA {
         setInitialAndFinalStates();
     }
 
+    /**
+     * Simulates DFA traversal to search acceptance of a string
+     * @param input
+     * @return
+     */
     public String extendedDelta(String input) {
         long start = System.nanoTime();
         int currentState = initialStates.get(0);
@@ -66,6 +73,9 @@ public class DFA {
         return output;
     }
 
+    /**
+     * Set the new transition list for the DFA
+     */
     private void setTransitionsList () {
         for (int i = 0; i < dfaStates.size(); i++) {
             List<State> currStateList = dfaStates.get(i);
@@ -90,6 +100,9 @@ public class DFA {
         }
     }
 
+    /**
+     * Sets initial and final states in lists
+     */
     private void setInitialAndFinalStates() {
         for (int i = 0; i < dfaStates.size(); i++) {
             List<State> currStateList = dfaStates.get(i);
@@ -106,6 +119,10 @@ public class DFA {
         }
     }
 
+    /**
+     * returns DFA's symbol list
+     * @return
+     */
     public List<Character> getSymbolList () {
         if (symbolList.contains('ε')) {
             symbolList.remove(symbolList.indexOf('ε'));

@@ -59,6 +59,11 @@ public class AFN {
         computeInitialState();
     }
 
+    /**
+     * Simulates AFN to search if a string belongs to the language
+     * @param input
+     * @return
+     */
     public String extendedDelta(String input) {
         long start = System.nanoTime();
         List<State> currentStateList = initialState;
@@ -115,6 +120,12 @@ public class AFN {
         return output;
     }
 
+    /**
+     * Runs the ε-closure for a determined state
+     * @param initialState
+     * @param tmpClosure
+     * @return
+     */
     private List<State> eClosure(State initialState, List<State> tmpClosure) {
         // initialState is finalState of current Transition
         for (int i = 0; i < this.transitionsList.size(); i++) {
