@@ -19,6 +19,16 @@ YOU CANNOT USE THIS CODE IN ANY WAY, LICENSE WON'T APPLY IN THIS CASE. JUST DON'
 Fork the project or download it. Then just add the project
 to your prefered IDE or compile it from Console.
 
+## Video Demonstration
+
+You can see a demonstration at:
+
+```
+https://youtu.be/kCX22vIeC7A
+```
+
+Note: video is in spanish.
+
 ### Prerequisites
 
 Java SE8. SDK 8.
