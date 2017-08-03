@@ -19,6 +19,8 @@ public class Transformation {
     private List<List<State>> dfaStates; // states of the dfa without id
     private HashMap<List<State>, Integer> dfaStatesWithNumbering; // states of the dfa with an id for each one of them
 
+    private int closureCont;
+
     public Transformation(List<Transition> transitionList, List<Character> symbolList, List<State> finalStates, List<State> initialState) {
         this.transitionList = transitionList;
         this.symbolList = symbolList;
@@ -30,6 +32,8 @@ public class Transformation {
         dfaTable = new HashMap<>();
         dfaStates = new LinkedList<>();
         dfaStatesWithNumbering = new HashMap<>();
+
+        closureCont = 0;
 
         createTransitionTable();
         createDfaTable();
@@ -123,7 +127,13 @@ public class Transformation {
                     if (!tmpClosure.contains(transitionList.get(i).getFinalState())) {
                         tmpClosure.add(transitionList.get(i).getFinalState());
                     }
-                    eClosure(transitionList.get(i).getFinalState(), tmpClosure);
+                    if(!tmpClosure.contains(initialState)) {
+                        eClosure(transitionList.get(i).getFinalState(), tmpClosure);
+                    }
+                    if (tmpClosure.contains(initialState) && closureCont == 0) {
+                        eClosure(transitionList.get(i).getFinalState(), tmpClosure);
+                        closureCont = 1;
+                    }
                 }
             }
         }
@@ -161,6 +171,7 @@ public class Transformation {
                         }
                     }
                     tmpCol.put(currSymbol,tmpClosure);
+                    closureCont = 0;
                 }
                 transitionTable.put(transitionList.get(i).getInitialState().getStateId(), tmpCol);
             }

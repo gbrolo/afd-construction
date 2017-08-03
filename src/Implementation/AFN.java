@@ -134,7 +134,9 @@ public class AFN {
                     if (!tmpClosure.contains(transitionsList.get(i).getFinalState())) {
                         tmpClosure.add(transitionsList.get(i).getFinalState());
                     }
-                    eClosure(transitionsList.get(i).getFinalState(), tmpClosure);
+                    if(!tmpClosure.contains(initialState)) {
+                        eClosure(transitionsList.get(i).getFinalState(), tmpClosure);
+                    }
                 }
             }
         }
