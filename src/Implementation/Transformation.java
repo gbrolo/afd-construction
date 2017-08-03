@@ -126,6 +126,7 @@ public class Transformation {
                 if (transitionList.get(i).getTransitionSymbol().equals("ε")) {
                     if (!tmpClosure.contains(transitionList.get(i).getFinalState())) {
                         tmpClosure.add(transitionList.get(i).getFinalState());
+                        closureCont = 0;
                     }
                     if(!tmpClosure.contains(initialState)) {
                         eClosure(transitionList.get(i).getFinalState(), tmpClosure);
