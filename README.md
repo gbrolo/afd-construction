@@ -11,9 +11,6 @@ then you should go to:
 https://github.com/gbrolo/thompson-algorithm
 ```
 
-Note: If you are a current student of 2017's 'Diseño de Lenguajes de Programación' at UVG,
-YOU CANNOT USE THIS CODE IN ANY WAY, LICENSE WON'T APPLY IN THIS CASE. JUST DON'T...
-
 ## Getting Started
 
 Fork the project or download it. Then just add the project
